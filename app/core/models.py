@@ -5,8 +5,17 @@ FOOD_CHOICES = (('Fast Food', 'Fast Food'),
                 ('Bar Attached', 'Bar Attached'),
                 ('Bakery','Bakery'),('Normal', 'Normal'))
 
-class Place(models.Model):
-    """ Model for place """
+class TimeStamp(models.Model):
+    """ Generic model for all model timestamp"""
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class Place(TimeStamp, models.Model):
+    """ Model for place. Also inhering Timestamp abstract model """
 
     name = models.CharField(max_length=250)
     address = models.CharField(max_length=250)
@@ -16,7 +25,7 @@ class Place(models.Model):
         return self.name
 
 
-class Restaurant(models.Model):
+class Restaurant(TimeStamp, models.Model):
     """ Restaurent model """
     place = models.OneToOneField(Place, on_delete=models.CASCADE, primary_key=True)
     name = models.CharField(max_length=50)
